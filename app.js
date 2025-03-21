@@ -6,10 +6,13 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+// var fotosRouter = require('./routes/fotos');
+var fotosRouter = require('./routes/fotos');
+// Importa el controlador de rutas
+const fotosRouterRest = require('./routes/rest/fotos');  
+
 
 var app = express();
-
-var fotosRouter = require('./routes/fotos');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,12 +27,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/fotos', fotosRouter);
+// Usa el router en la ruta /rest/fotos
+app.use('/rest/fotos', fotosRouterRest);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -41,5 +45,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
